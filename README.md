@@ -1,2 +1,10 @@
 # MSNA-Burst-Analysis
 Automated quantification of the integrated sympathetic neurogram
+
+# Introduction
+Muscle sympathetic nerve activity (MSNA) is typically quantified from an integrated neurogram in which the raw MSNA signal is bandpass filtered, rectified, and integrated with a leaky integrator (time constant of 0.1s). The integrated MSNA neurogram then undergoes burst detection to determine bursts of sympathetic activity that are greater than a pre-defined signal-to-noise ratio (typically 3:1). Bursts can then be assessed for their latency from the originating R-wave, amplitude, and area. After acquiring a list of bursts subsequent analysis can be conducted to determine burst frequency, and burst amplitude/area can be normalized as appropriate for the experimental conditions. Additional analysis may include the quantification of total sympathetic activity or other similar composite metrics which have been published on previously. Many laboratories that specialize in this area of research have their own in-house custom software for detecting MSNA bursts but source code is not made readily available to other researchers. Additionally, these software can be out-dated and thus not functioning on today's current operating systems. 
+
+The shiny app provided here is loosely based on my interpretation of the methodology published by [Hamner JW & Taylor JA](https://journals.physiology.org/doi/full/10.1152/jappl.2001.91.3.1199]) in 2001. However, this shiny app offers unique data visualization features permitting the user to quickly identify optimal burst detection settings and the flexibility to select or deselect bursts which do not meet the scorers criteria.
+
+# Running the application
+To run this application on your system you must first install [R] (https://cran.r-project.org/) and [R studio] (https://www.rstudio.com/) both freely available and open source. The easiest way to run this software on your system is to run this command within your R studio console - `runGitHub( "<gefoster11>", "<MSNA-Burst-Analysis>")`
