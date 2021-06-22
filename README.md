@@ -11,7 +11,7 @@ To run this application on your system you must first install [R](https://cran.r
 
 In order to run directly from github you must first install 'shiny'
 
-`install.packages(shiny)`
+`install.packages('shiny')`
 
 # Running the application
 After installing R, Rstudio, and shiny, you can run this application without the need to download it directly from github by running this command from the console in R studio.
