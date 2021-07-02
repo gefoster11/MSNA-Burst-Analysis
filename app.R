@@ -22,7 +22,6 @@ packages = c("shiny",
              "shinyBS",
              "tidyverse",
              "MESS",
-             "plotly",
              "zip",
              "thematic",
              "shinythemes",
@@ -32,7 +31,19 @@ package.check <- lapply(
   packages,
   FUN = function(x) {
     if (!require(x, character.only = TRUE)) {
-      #install.packages(x, dependencies = TRUE)
+      install.packages(x, dependencies = TRUE)
+      library(x, character.only = TRUE)
+    }
+  }
+)
+
+# Package Dependency - Install plotly from github
+packages = c("plotly")
+
+package.check <- lapply(
+  packages,
+  FUN = function(x) {
+    if (!require(x, character.only = TRUE)) {
       devtools::install_github(x)
       library(x, character.only = TRUE)
     }
