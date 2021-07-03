@@ -44,8 +44,6 @@ package.check <- lapply(
       library("plotly", character.only = TRUE)
     }
 
-install_github('skardhamar/rga')
-
 # ---- Define UI for data upload app ----
 ui <- fluidPage(
     theme = shinytheme("united"),
