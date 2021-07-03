@@ -43,8 +43,6 @@ package.check <- lapply(
       remotes::install_github("ropensci/plotly")
       library("plotly", character.only = TRUE)
     }
-  }
-)
 
 install_github('skardhamar/rga')
 
