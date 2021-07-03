@@ -18,7 +18,7 @@ source("./functions/helper_functions.R")
 options(shiny.maxRequestSize = 30*1024^2, scipen = 999)
 
 # Package Dependency
-packages = c("devtools",
+packages = c("remotes",
              "shiny",
              "shinyBS",
              "tidyverse",
@@ -39,17 +39,14 @@ package.check <- lapply(
 )
 
 # Package Dependency - Install plotly from github
-packages = c("plotly")
-
-package.check <- lapply(
-  packages,
-  FUN = function(x) {
-    if (!require(x, character.only = TRUE)) {
-      devtools::install_github(x)
-      library(x, character.only = TRUE)
+   if (!require("plotly", character.only = TRUE)) {
+      remotes::install_github("ropensci/plotly")
+      library("plotly", character.only = TRUE)
     }
   }
 )
+
+install_github('skardhamar/rga')
 
 # ---- Define UI for data upload app ----
 ui <- fluidPage(
