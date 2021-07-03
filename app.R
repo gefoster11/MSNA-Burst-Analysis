@@ -18,7 +18,8 @@ source("./functions/helper_functions.R")
 options(shiny.maxRequestSize = 30*1024^2, scipen = 999)
 
 # Package Dependency
-packages = c("shiny",
+packages = c("devtools",
+             "shiny",
              "shinyBS",
              "tidyverse",
              "MESS",
