@@ -306,7 +306,7 @@ server <- function(input, output) {
             t_start <- input$start
             t_end <- input$end
             
-            beat_sel <- values$beat %>% plotlyt::filter(time >= t_start & time <= t_end)
+            beat_sel <- values$beat %>% plotly::filter(time >= t_start & time <= t_end)
             MSNA <- values$MSNA
             
             df <- local_maxima(beat_sel, MSNA, input$latency, input$t_window)
