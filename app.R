@@ -26,6 +26,7 @@ packages = c("remotes",
              "zip",
              "thematic",
              "shinythemes",
+             "signal",
              "features")
 
 package.check <- lapply(
