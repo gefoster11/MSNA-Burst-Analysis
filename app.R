@@ -306,7 +306,7 @@ server <- function(input, output) {
             t_start <- input$start
             t_end <- input$end
             
-            beat_sel <- values$beat %>% filter(time >= t_start & time <= t_end)
+            beat_sel <- values$beat %>% plotlyt::filter(time >= t_start & time <= t_end)
             MSNA <- values$MSNA
             
             df <- local_maxima(beat_sel, MSNA, input$latency, input$t_window)
@@ -385,7 +385,7 @@ server <- function(input, output) {
         
 
             return(values$ beat %>% 
-                    filter(time >= input$start & time <= input$end) %>% round(2))
+                    plotly::filter(time >= input$start & time <= input$end) %>% round(2))
         
     }, options = list(pageLength = 10))
     
@@ -395,7 +395,7 @@ server <- function(input, output) {
         req(input$start, input$end)
         
             return(values$MSNA %>%
-                    filter(MSNA_time >= input$start & MSNA_time <= input$end) %>% round(2))
+                    plotly::filter(MSNA_time >= input$start & MSNA_time <= input$end) %>% round(2))
   
     }, options = list(pageLength = 10))
     
@@ -407,7 +407,7 @@ server <- function(input, output) {
         df <- values$burst_keep %>% select(beat_no, beat_time, RRI, burst_time, latency, amp, area)
 
             return(df %>%
-                       filter(beat_time >= input$start & beat_time <= input$end) %>% round(2))
+                       plotly::filter(beat_time >= input$start & beat_time <= input$end) %>% round(2))
         
         
     }, options = list(pageLength = 25))
@@ -437,7 +437,7 @@ server <- function(input, output) {
         df$window[df$rel_time >= df$start_t & df$rel_time <= df$end_t] <- 1
         
         # Pull out windowed neurogram of only those where burst_lab = TRUE
-        temp <- df %>% filter(burst_lab == TRUE, window == 1)
+        temp <- df %>% plotly::filter(burst_lab == TRUE, window == 1)
         temp <- temp[!duplicated(temp$MSNA_time),]
         
         # set neurogram$MSNA_vjust to zero
@@ -445,12 +445,12 @@ server <- function(input, output) {
         # set neurogram when bursts present
         neurogram$MSNA_vjust[which(neurogram$MSNA_time %in% temp$MSNA_time)] <- temp$MSNA_vjust*temp$window 
         neurogram <- neurogram %>% 
-          filter(MSNA_time >= input$start & MSNA_time <= input$end) # the contents of this file contains the raw and detected neurogram which could be saved to file
+          plotly::filter(MSNA_time >= input$start & MSNA_time <= input$end) # the contents of this file contains the raw and detected neurogram which could be saved to file
         
         #######
         temp <- df %>% nest(burst_df = c(rel_time:MSNA_v_zeroed, window, MSNA_vjust)) %>% mutate(amp = max(rise_amp, fall_amp))
-        Burst_keep <- temp %>% filter(burst_lab == TRUE)
-        Burst_discard <- temp %>% filter(burst_lab == FALSE)
+        Burst_keep <- temp %>% plotly::filter(burst_lab == TRUE)
+        Burst_discard <- temp %>% plotly::filter(burst_lab == FALSE)
         
         #browser()
         
@@ -491,7 +491,7 @@ server <- function(input, output) {
         if (is.null(values$beat_select) | is.null(values$burst_keep)) {
             
             figA <- plot_ly() %>%
-              add_lines(data = values$MSNA %>% filter(MSNA_time >= input$start & MSNA_time <= input$end),
+              add_lines(data = values$MSNA %>% plotly::filter(MSNA_time >= input$start & MSNA_time <= input$end),
                         x = ~MSNA_time,
                         y = ~BP,
                         name = "BP",
@@ -500,7 +500,7 @@ server <- function(input, output) {
               layout(yaxis = list(title = "BP (mm Hg)"))
             
             figB <- plot_ly() %>%
-              add_lines(data = values$MSNA %>% filter(MSNA_time >= input$start & MSNA_time <= input$end),
+              add_lines(data = values$MSNA %>% plotly::filter(MSNA_time >= input$start & MSNA_time <= input$end),
                         x = ~MSNA_time,
                         y = ~ECG,
                         name = "ECG",
@@ -509,7 +509,7 @@ server <- function(input, output) {
               layout(yaxis = list(title = "ECG (V)"))
           
             figC <- plot_ly() %>%
-                add_lines(data = values$beat %>% filter(time >= input$start & time <= input$end),
+                add_lines(data = values$beat %>% plotly::filter(time >= input$start & time <= input$end),
                           x = ~time,
                           y = ~RRI,
                           name = "RRI",
@@ -518,7 +518,7 @@ server <- function(input, output) {
                 layout(yaxis = list(title = "RRI (s)"))
             
             figD <- plot_ly() %>%
-                add_lines(data = values$MSNA %>% filter(MSNA_time >= input$start & MSNA_time <= input$end),
+                add_lines(data = values$MSNA %>% plotly::filter(MSNA_time >= input$start & MSNA_time <= input$end),
                           x = ~MSNA_time,
                           y = ~MSNA_v_zeroed,
                           name = "Neurogram",
@@ -556,17 +556,17 @@ server <- function(input, output) {
                                                    time = burst_time + time) %>% ungroup()
             
             thresh_df <- noise_band %>% group_by(beat_no) %>%
-              filter(burst_lab == TRUE) %>% 
+              plotly::filter(burst_lab == TRUE) %>% 
               select(beat_no, burst_time, threshold) %>% 
               summarise(threshold = min(threshold), burst_time = mean(burst_time)) %>% ungroup()
             
             start_end_markers <- noise_band %>% 
-              filter(burst_lab == TRUE)
+              plotly::filter(burst_lab == TRUE)
              
             # Plot
             # Burst neurogram
             figA <- plot_ly(source = "B") %>%
-              add_lines(data = values$MSNA %>% filter(MSNA_time >= input$start & MSNA_time <= input$end),
+              add_lines(data = values$MSNA %>% plotly::filter(MSNA_time >= input$start & MSNA_time <= input$end),
                         x = ~MSNA_time,
                         y = ~BP,
                         name = "BP",
@@ -575,7 +575,7 @@ server <- function(input, output) {
               layout(shapes = lines, yaxis = list(title = "BP (mm Hg)"))
             
             figB <- plot_ly(source = "B") %>%                
-              add_lines(data = values$MSNA %>% filter(MSNA_time >= input$start & MSNA_time <= input$end),
+              add_lines(data = values$MSNA %>% plotly::filter(MSNA_time >= input$start & MSNA_time <= input$end),
                         x = ~MSNA_time,
                         y = ~ECG,
                         name = "ECG",
@@ -627,7 +627,7 @@ server <- function(input, output) {
                                           round(area,2)),
                             customdata = ~beat_no
                 ) %>%
-                add_lines(data = MSNA %>% filter(MSNA_time >= input$start & MSNA_time <= input$end),
+                add_lines(data = MSNA %>% plotly::filter(MSNA_time >= input$start & MSNA_time <= input$end),
                           x = ~MSNA_time,
                           y = ~MSNA_v_zeroed,
                           name = "Neurogram",
@@ -635,14 +635,14 @@ server <- function(input, output) {
                           line = list(color = "black")
                 ) %>%
                 add_lines(data = thresh_df %>% 
-                            filter(burst_time >= input$start & burst_time <= input$end),
+                            plotly::filter(burst_time >= input$start & burst_time <= input$end),
                         x = ~burst_time,
                         y = ~threshold,
                         name = "Threshold",
                         showlegend = TRUE,
                         line = list(color = "red", dash = 'dot', width = 1)
               ) %>%
-                add_ribbons(data = noise_band %>% filter(time >= input$start & time <= input$end),
+                add_ribbons(data = noise_band %>% plotly::filter(time >= input$start & time <= input$end),
                         x = ~time,
                         ymin = ~volts,
                         ymax = ~noise,
@@ -651,7 +651,7 @@ server <- function(input, output) {
                         line = list(color = "grey", dash = 'dot', width = 1),
                         fillcolor = 'rgba(7, 164, 181, 0.2)'
               ) %>%   
-                add_markers(data = start_end_markers %>% filter(time >= input$start & time <= input$end), 
+                add_markers(data = start_end_markers %>% plotly::filter(time >= input$start & time <= input$end), 
                                                 x = ~time,
                                                 y = ~volts,
                                                 name = "start-end markers",
@@ -692,7 +692,7 @@ server <- function(input, output) {
         #browser()  
       
         df <- values$df %>% 
-           filter(burst_time >= input$start & burst_time <= input$end) %>%
+           plotly::filter(burst_time >= input$start & burst_time <= input$end) %>%
             unnest(burst_df)
           
         burst_thresh <- input$BurstThreshold
@@ -700,7 +700,7 @@ server <- function(input, output) {
         df_key <- highlight_key(df, ~beat_no)
         
         lines <- map(input$BurstThreshold, vline)
-        latent_lines <- map(mean(df %>% filter(burst_lab == TRUE) %>% .$latency), latent_line)
+        latent_lines <- map(mean(df %>% plotly::filter(burst_lab == TRUE) %>% .$latency), latent_line)
         X_line <- map(input$BurstThreshold, hline)
         Y_line <- map(input$BurstThreshold, vline)
         
