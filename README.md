@@ -42,4 +42,4 @@ The 'Analyzed Data' tab provides a tabular view of the outputted data. To downlo
 This application provides a simple tool for MSNA burst detection which can subsequently be used for determining standard MSNA metrics. Although the application has some nuances the workflow described above will minimize these issues. If in utilizing this application you identify other critical errors please provide a minimally reproducible example so other users are aware of the issue and so they can be fixed. I urge others to develop similar analysis applications to build a collective environment where signal processing tools can be shared and contribute to the advancement of our field.
 
 # Referencing
-If you use this application in your research, please reference this github repository in your publications.
+If you use this application in your research, please reference this github repository in your publications. A publication is forthcoming and once available will be an appropriate reference for this application.
