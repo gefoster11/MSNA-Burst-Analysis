@@ -926,9 +926,9 @@ server <- function(input, output) {
 
             fileName <- c(paste(tools::file_path_sans_ext(input$f_MSNA$name), "-burst.csv", sep = ""),
                           paste(tools::file_path_sans_ext(input$f_MSNA$name), "-neurogram.csv", sep = ""))
-            write_csv(values$burst_keep %>% select(c(beat_no, beat_time, RRI, burst_time, latency, amp, area))
+            write_csv(values$burst_keep %>% select(c(beat_no, beat_time, RRI, burst_time, latency, amp, area)) %>% plotly::filter(beat_time >= input$start & beat_time <= input$end)
                       , fileName[[1]])
-            write_csv(values$neurogram, fileName[[2]])
+            write_csv(values$neurogram %>% plotly::filter(MSNA_time >= input$start & MSNA_time <= input$end), fileName[[2]])
 
 
           #create the zip file
