@@ -4,8 +4,11 @@ load_MSNA <- function(MSNA, fs) {
   MSNA <- MSNA
   
     # Create filtered MSNA signal 0.05 - 4 Hz passband.
+  hf <- 4 #default for human applications is 4 Hz. 
+  lf <- 0.05 #default for human applications is 0.05 Hz.
+  
   nyq_l <- fs/2 # nyquist limit
-  bf <- signal::butter(1, c(0.05/nyq_l, 4/nyq_l), type = "pass") # butterworth filter 1 order passband
+  bf <- signal::butter(1, c(lf/nyq_l, hf/nyq_l), type = "pass") # butterworth filter 1 order passband
   x <- MSNA$MSNA_v
   MSNA$MSNA_filt <- signal::filtfilt(bf, x) # filtered signal
   
@@ -16,7 +19,7 @@ load_MSNA <- function(MSNA, fs) {
   MSNA$MSNA_filt <- slope*MSNA$MSNA_filt #+ int
   
   # Create filter for MSNA signal to remove DC offset
-  bf <- signal::butter(1, 0.05/nyq_l, type = "high")
+  bf <- signal::butter(1, lf/nyq_l, type = "high")
   x <- MSNA$MSNA_v
   MSNA$MSNA_v_zeroed <- signal::filtfilt(bf, x)
   lm_prop <- lm(MSNA$MSNA_v~MSNA$MSNA_v_zeroed)
