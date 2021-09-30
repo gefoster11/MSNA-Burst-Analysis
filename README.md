@@ -7,9 +7,9 @@ Muscle sympathetic nerve activity (MSNA) is typically quantified from an integra
 The shiny app provided here is loosely based on my interpretation of the methodology published by [Hamner JW & Taylor JA](https://journals.physiology.org/doi/full/10.1152/jappl.2001.91.3.1199]) in 2001. However, this shiny app offers unique data visualization features permitting the user to quickly identify optimal burst detection settings and the flexibility to select or deselect bursts which do not meet the scorers criteria.
 
 # Getting set up
-To run this application on your system you must first install [R](https://cran.r-project.org/) and [R studio](https://www.rstudio.com/) both freely available and open source. 
+To run this application on your system you must first install [R](https://cran.r-project.org/) and [R Studio](https://www.rstudio.com/) both freely available and open source. 
 
-In order to run directly from github you must first install 'shiny'
+After installing R and R Studio, launch R Studio and use this command in the console to install 'shiny' permitting you to directly launch the app from the github repository.
 
 `install.packages('shiny')`
 
@@ -21,7 +21,7 @@ After installing R, Rstudio, and shiny, you can run this application without the
 The application should run in your default browser. Using this approach will ensure you are always using the latest source code available within this github repository.
 
 # Preparing your input data
-Within this repository you will find example data files including a clean and noisy data set. Download these files and try to load them in the application to confirm normal functionality.
+Within this GitHub repository you will find example data files including a clean and noisy data set. To download these files you can click on the green "code" button and download a ZIP file of the entire repository. After unzipping the repository the appropriate files contained within the "example files" folder can be loaded into the launched application.
 
 To run the software with your own data files, you will need to generate and prepare two data files. A beat file which contains a one row header (variable names) and contains the time in seconds of each R-wave from your ECG signal within the first column. The file should be saved as a comma separated file. A raw signals file contains a standard ADInstruments labchart 9 row header with columns in the following order: Time in seconds, arterial pressure, electrocardiogram, and the integrated MSNA signal. All signals should be downsampled to 25 Hz. This file should be saved as a tab-delimited data file.
 
