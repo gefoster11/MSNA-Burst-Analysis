@@ -13,6 +13,28 @@ After installing R and R Studio, launch R Studio and use this command in the con
 
 `install.packages('shiny')`
 
+The application has other R package dependencies which should automatically install when you first run the application.  If you run into problems the following dependent packages can be installed manually:
+
+1. remotes
+2. shiny
+3. shinyBS
+4. tidyverse
+5. MESS
+6. zip
+7. thematic
+8. shinythemes
+9. signal
+10. features
+11. plotly (development version)
+
+Packages can be installed manually using the code:
+
+`install.packages('<package name>')`
+
+To install plotly's development version use:
+
+`remotes::install_github("ropensci/plotly")`
+
 # Running the application
 After installing R, Rstudio, and shiny, you can run this application without the need to download it directly from github by running this command from the console in R studio.
 
