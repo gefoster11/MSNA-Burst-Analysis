@@ -65,4 +65,4 @@ This application provides a simple tool for MSNA burst detection which can subse
 
 # Referencing
 If you use this application in your research, please reference our methodology article: <br>
-Foster GE, Shafer BM, Shing C. (*In Press*) [An open-source application for the standardized burst identification from the integrated muscle sympathetic](https://journals.physiology.org/doi/abs/10.1152/jn.00397.2021]) neurogram. *Journal of Neurophysiology*.
+Foster GE, Shafer BM, Shing C. (*In Press*) [An open-source application for the standardized burst identification from the integrated muscle sympathetic](https://journals.physiology.org/doi/abs/10.1152/jn.00397.2021) neurogram. *Journal of Neurophysiology*.
