@@ -129,6 +129,10 @@ ui <- fluidPage(
             tags$hr(),
 
             # ---- Input: Save Output File ----
+            checkboxInput("merge_output", "Merge Output?", value = FALSE),
+            bsTooltip("merge_output", "combine beat and burst files into a single output file", "right", options = list(container = "body")),
+            
+            
             downloadButton("save", "Download"),
             bsTooltip("save", "saves the selected data to a csv file", "right", 
                       options = list(container = "body")),
@@ -141,7 +145,7 @@ ui <- fluidPage(
               HTML("<p>2021; Created by Glen Foster</p><br>")),
             
             tags$div(
-              HTML("<p><b><u>Modification of the analysis first described by:</b></u><br> Hamner JW & Taylor JA (2001). <u>Automated quantification of sympathetic beat-by-beat activity, independent of signal quality.</u> <i>Journal of Applied Physiology. </i> <b>91</b>, 1199–1206.
+              HTML("<p><b><u>Reference:</b></u><br> Foster GE, Shafer BM & Shing C (2021). <u><a href = https://doi.org/10.1152/jn.00397.2021>An open-source application for the standardized burst identification from the integrated muscle sympathetic neurogram.</a></u> <i>Journal of Neurophysiology. </i> <b>126</b>, 1831–1841.
                    </p>")),
 
         ),
@@ -404,10 +408,21 @@ server <- function(input, output) {
         
         req(input$start, input$end, values$burst_keep)
         
+      if(input$merge_output == FALSE) {
         df <- values$burst_keep %>% select(beat_no, beat_time, RRI, burst_time, latency, amp, area)
-
-            return(df %>%
-                       plotly::filter(beat_time >= input$start & beat_time <= input$end) %>% round(2))
+        
+        return(df %>%
+                 plotly::filter(beat_time >= input$start & beat_time <= input$end) %>% round(2))
+      } else {
+        beat <- values$beat %>% plotly::filter(time >= input$start & time <=input$end) %>% cbind(beat_no = 1:length(.$time)) %>% relocate(beat_no) %>% select(!time)
+        burst <- values$burst_keep %>% select(c(beat_no, beat_time, burst_time, latency, amp, area)) %>% plotly::filter(beat_time >= input$start & beat_time <= input$end)
+        
+        merge_df <- merge(beat, burst, by = "beat_no", all.x = TRUE) 
+        
+        return(merge_df %>% round(2))
+        
+      }
+        
         
         
     }, options = list(pageLength = 25))
@@ -926,8 +941,20 @@ server <- function(input, output) {
 
             fileName <- c(paste(tools::file_path_sans_ext(input$f_MSNA$name), "-burst.csv", sep = ""),
                           paste(tools::file_path_sans_ext(input$f_MSNA$name), "-neurogram.csv", sep = ""))
-            write_csv(values$burst_keep %>% select(c(beat_no, beat_time, RRI, burst_time, latency, amp, area)) %>% plotly::filter(beat_time >= input$start & beat_time <= input$end)
-                      , fileName[[1]])
+            
+            if(input$merge_output == FALSE) {
+              write_csv(values$burst_keep %>% select(c(beat_no, beat_time, RRI, burst_time, latency, amp, area)) %>% plotly::filter(beat_time >= input$start & beat_time <= input$end)
+                        , fileName[[1]])  
+            } else {
+            
+            beat <- values$beat %>% plotly::filter(time >= input$start & time <=input$end) %>% cbind(beat_no = 1:length(.$time)) %>% relocate(beat_no) %>% select(!time)
+            burst <- values$burst_keep %>% select(c(beat_no, beat_time, burst_time, latency, amp, area)) %>% plotly::filter(beat_time >= input$start & beat_time <= input$end)
+            
+            merge_df <- merge(beat, burst, by = "beat_no", all.x = TRUE)                                                                                                                     
+                
+            write_csv(merge_df, fileName[[1]])
+            }
+            
             write_csv(values$neurogram %>% plotly::filter(MSNA_time >= input$start & MSNA_time <= input$end), fileName[[2]])
 
 
