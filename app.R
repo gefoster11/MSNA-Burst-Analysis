@@ -414,8 +414,8 @@ server <- function(input, output) {
         return(df %>%
                  plotly::filter(beat_time >= input$start & beat_time <= input$end) %>% round(2))
       } else {
-        beat <- values$beat %>% plotly::filter(time >= input$start & time <=input$end) %>% cbind(beat_no = 1:length(.$time)) %>% relocate(beat_no) %>% select(!time)
-        burst <- values$burst_keep %>% select(c(beat_no, beat_time, burst_time, latency, amp, area)) %>% plotly::filter(beat_time >= input$start & beat_time <= input$end)
+        beat <- values$beat %>% plotly::filter(time >= input$start & time <=input$end) %>% cbind(beat_no = 1:length(.$time)) %>% relocate(beat_no) %>% rename(beat_time = time)
+        burst <- values$burst_keep %>% plotly::filter(beat_time >= input$start & beat_time <= input$end) %>% select(c(beat_no, burst_time, latency, amp, area)) 
         
         merge_df <- merge(beat, burst, by = "beat_no", all.x = TRUE) 
         
@@ -947,8 +947,10 @@ server <- function(input, output) {
                         , fileName[[1]])  
             } else {
             
-            beat <- values$beat %>% plotly::filter(time >= input$start & time <=input$end) %>% cbind(beat_no = 1:length(.$time)) %>% relocate(beat_no) %>% select(!time)
-            burst <- values$burst_keep %>% select(c(beat_no, beat_time, burst_time, latency, amp, area)) %>% plotly::filter(beat_time >= input$start & beat_time <= input$end)
+              beat <- values$beat %>% plotly::filter(time >= input$start & time <=input$end) %>% cbind(beat_no = 1:length(.$time)) %>% relocate(beat_no) %>% rename(beat_time = time)
+              burst <- values$burst_keep %>% plotly::filter(beat_time >= input$start & beat_time <= input$end) %>% select(c(beat_no, burst_time, latency, amp, area)) 
+              
+              merge_df <- merge(beat, burst, by = "beat_no", all.x = TRUE) 
             
             merge_df <- merge(beat, burst, by = "beat_no", all.x = TRUE)                                                                                                                     
                 
