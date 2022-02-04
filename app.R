@@ -262,7 +262,7 @@ server <- function(input, output) {
             # load Beat
             beat <- read_csv(file = input$f_beat$datapath) %>% 
                 rename(time = Time) %>%
-                select(time) %>%
+                #select(time) %>%
                 mutate(RRI = lead(time) - time)
             
             values$beat <- beat[!is.na(beat$RRI),]
