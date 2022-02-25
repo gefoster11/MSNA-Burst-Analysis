@@ -47,7 +47,7 @@ package.check <- lapply(
 
 # ---- Define UI for data upload app ----
 ui <- fluidPage(
-    theme = shinytheme("united"),
+   # theme = shinytheme("united"),
     # ---- App title ----
     titlePanel("MSNA Burst Detector"),
     
