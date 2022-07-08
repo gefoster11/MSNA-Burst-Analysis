@@ -15,7 +15,8 @@
 source("./functions/helper_functions.R")
 
 # Sets max file size to 30 Mb
-options(shiny.maxRequestSize = 30*1024^2, scipen = 999)
+options(shiny.maxRequestSize = 30*1024^2, scipen = 999,
+        shiny.launch.browser = .rs.invokeShinyWindowExternal)
 
 # Package Dependency
 packages = c("remotes",
