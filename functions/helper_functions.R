@@ -38,7 +38,7 @@ local_maxima <- function(beat_df, MSNA_df, latency, t_window) {
   #MSNA_df <- MSNA
   #latency <- input$latency
   #t_window <- input$t_window
-  
+  #browser()
   df <- NULL
   
   for (i in seq_along(beat_df$time)) {
@@ -51,6 +51,8 @@ local_maxima <- function(beat_df, MSNA_df, latency, t_window) {
                     beat_time = beat_df$time[[i]], 
                     RRI = beat_df$RRI[[i]], 
                     MSNA_time = NA, 
+                    BP = NA, #added May 11, 2023
+                    ECG = NA, #added May 11, 2023
                     MSNA_v = NA, 
                     MSNA_filt = NA, 
                     MSNA_v_zeroed = NA, 
@@ -79,6 +81,8 @@ local_maxima <- function(beat_df, MSNA_df, latency, t_window) {
 window <- function(df, MSNA, fs) {
   df2 <- NULL
   
+ # browser()
+  
   for (i in seq_along(df$beat_no)) {
     temp2 <- MSNA %>% 
       plotly::filter(MSNA_time >= df$t_max[[i]] - df$RRI[[i]]/2 & MSNA_time <= df$t_max[[i]] + df$RRI[[i]]/2)
@@ -90,7 +94,9 @@ window <- function(df, MSNA, fs) {
         RRI = df$RRI[[i]],
         burst_time = NA,
         rel_time = NA,
-        MSNA_time = NA, 
+        MSNA_time = NA,
+        BP = NA, #added May 11, 2023
+        ECG = NA, #added May 11, 2023
         MSNA_v = NA,
         MSNA_v_zeroed = NA,
         MSNA_filt = NA, 
