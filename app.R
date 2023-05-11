@@ -316,6 +316,7 @@ server <- function(input, output) {
             
             df <- local_maxima(beat_sel, MSNA, input$latency, input$t_window)
             
+            
             incProgress(amount = 0.25)
             #function to get windowed data from local maxima within each windowed beat.
             df <- df[!is.na(df$RRI),] %>% select(beat_no, beat_time, RRI, latency, t_max) %>% group_by(beat_no) %>%
@@ -331,10 +332,14 @@ server <- function(input, output) {
             
             incProgress(amount = 0.25)
 
+            #browser()
+            
             #### determine 2nd derivative ####
-            df <- df %>% group_by(beat_no) %>%
+            df <- df %>% filter(!is.na(burst_time)) %>% #added to remove NAs on May 11, 2023
+              group_by(beat_no) %>%
                 nest(burst_df = c(rel_time:MSNA_v_zeroed)) %>%
                 mutate("2ndDerivative" = map(burst_df, function(.x) {
+                  
                   ans <- features(.x$rel_time, .x$MSNA_filt, smoother = "smooth.spline")
                   
                   cbind("deriv_time" = attr(ans, "fits")$x,
