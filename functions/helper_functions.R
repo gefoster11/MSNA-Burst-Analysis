@@ -1,6 +1,9 @@
 
 #### Prep MSNA file ####
 load_MSNA <- function(MSNA, fs) {
+  
+  #browser()
+  
   MSNA <- MSNA
   
     # Create filtered MSNA signal 0.05 - 4 Hz passband.
@@ -123,12 +126,15 @@ window <- function(df, MSNA, fs) {
 #### Noise spike detection ####
 noise <- function(df, noise_thresh) {
   
+  #browser()
+  
   temp <- df
   
   noise <- temp %>% 
     group_by(beat_no) %>% 
-    summarise(deriv = diff(MSNA_v_zeroed)/diff(MSNA_time)) %>%
-    summarise(max_deriv = max(deriv)) %>%
+    reframe(deriv = diff(MSNA_v_zeroed)/diff(MSNA_time)) %>% #changed May 18, 2023 by Foster to update warning of dply deprecation
+    group_by(beat_no) %>% #changed May 18, 2023 by Foster to update warning of dply deprecation
+    reframe(max_deriv = max(deriv)) %>% #changed May 18, 2023 by Foster to update warning of dply deprecation
     mutate(noise = max_deriv > noise_thresh)
   
   temp <- left_join(temp, noise, by = "beat_no")
