@@ -266,6 +266,9 @@ server <- function(input, output) {
                 #select(time) %>%
                 mutate(RRI = lead(time) - time)
             
+            # Remove RRI >2 and replace with NA
+            beat$RRI[beat$RRI>2] <- NA
+            
             values$beat <- beat[!is.na(beat$RRI),]
             
             # load MSNA
